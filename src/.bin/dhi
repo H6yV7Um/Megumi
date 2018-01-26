@@ -1,0 +1,13 @@
+#!/bin/zsh
+if [ ! $1 ]; then
+    echo "List the history layer of specific docker image."
+    echo ""
+    echo "usage: dhi [image_id]"
+    return
+fi
+
+imageId=$1
+for i in $(docker images -q)
+do
+    docker history $i | grep -q $imageId && echo $i
+done | sort -u

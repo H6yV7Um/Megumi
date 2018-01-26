@@ -1,0 +1,66 @@
+#!/bin/zsh
+function set_python_version () {
+
+  version=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))' 2> /dev/null)
+
+  PYTHON_VERSION="[py: $version]"
+  if ! test -z "$VIRTUAL_ENV" ; then
+    PYTHON_VERSION="[pyenv: `basename \"$VIRTUAL_ENV\"`]$PYTHON_VERSION"
+  fi
+
+  PYTHON_VERSION="%{$fg[blue]%}${PYTHON_VERSION}%{$reset_color%}"
+}
+
+function set_php_version () {
+  version="$(php -r 'echo phpversion();' 2> /dev/null)"
+  PHP_VERSION="%{$fg[magenta]%}[php: $version]%{$reset_color%}"
+}
+
+function set_ruby_version () {
+  version="$(ruby -v | awk '{print $2}')"
+  RUBY_VERSION="%{$fg[red]%}[ruby: $version]%{$reset_color%}"
+}
+
+function set_node_version () {
+  version="$(node --version 2> /dev/null)"
+  NODE_VERSION="%{$FG[106]%}[node: $version]%{$reset_color%}"
+}
+
+function set_java_version() {
+    version=$java_version
+    JAVA_VERSION="%{$FG[130]%}[java: $version]%{$reset_color%}"
+}
+
+function set_k8s_context() {
+    context="$(kubectl config current-context)"
+    K8S_CONTEXT="%{$FG[033]%}[k8s: $context]%{$reset_color%}"
+}
+
+function set_version() {
+  # Set the PYTHON_VERSION variable.
+  set_python_version
+
+  # Set the PHP_VERSION variable.
+  set_php_version
+
+  # Set the JAVA_VERSION variable.
+  set_java_version
+
+  # Set the RUBY_VERSION variable.
+  #set_ruby_version
+  
+  # Set the NODE_VERSION variable.
+  set_node_version
+
+  #set_k8s_context
+}
+
+function set_prompt() {
+    set_version
+    echo "${PYTHON_VERSION}${JAVA_VERSION}${K8S_CONTEXT}${PHP_VERSION}${NODE_VERSION}"
+}
+
+VIRTUAL_ENV_DISABLE_PROMPT=1
+
+PROMPT='
+$(set_prompt)'$PROMPT

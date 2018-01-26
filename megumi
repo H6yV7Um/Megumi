@@ -1,0 +1,36 @@
+#!/bin/bash
+
+DEST='./src'
+BACK_UP='./src_old'
+MYLOVE='./mylove.ini'
+
+if [[ -d $BACK_UP ]]; then
+    rm -rf $BACK_UP
+fi
+
+if [[ -d $DEST ]]; then
+    mv $DEST $BACK_UP
+fi
+
+mkdir $DEST
+
+function validate() {
+    if [[ ! $1 ]]; then
+        return 1
+    elif [[ ! -f $1 && ! -d $1 ]]; then
+        echo -e "$1: no such directory!"
+        return 2
+    fi
+    return 0
+}
+
+while read LINE
+do
+    validate $LINE
+    if [[ $? == 0 ]]; then
+        echo -e "start to cp $LINE..."
+        cp -r $LINE $DEST
+    fi
+done < $MYLOVE
+
+echo -e "complete!"

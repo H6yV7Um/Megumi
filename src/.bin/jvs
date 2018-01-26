@@ -1,0 +1,35 @@
+#!/bin/bash
+
+homes=(['8']='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home' ['9']='/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home')
+
+if [ ! $1 ]; then
+    echo "Java version switch tools"
+    echo ""
+    echo "usage: eval \$(jvs [version])"
+    echo "version: 8, 9"
+    echo ""
+    echo "etc: eval \$(jvs 9)"
+    exit
+fi
+
+for key in $(echo ${!homes[*]});do
+    if [ "$1" = "$key" ];then
+        java_home=${homes[$key]}
+    fi
+done
+
+if [ ! $java_home ];then
+    echo -e "\033[31mno such version in java libary!\033[0m"
+    exit
+fi
+
+JAVA_HOME=$java_home
+
+CLASSPATH=.:$JAVA_HOME/lib/ant-javafx.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/javafx-mx.jar:$JAVA_HOME/lib/jconsole.jar:$JAVA_HOME/lib/packager.jar:$JAVA_HOME/lib/sa-jdi.jar:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/jre/lib/charsets.jar:$JAVA_HOME/jre/lib/deploy.jar:$JAVA_HOME/jre/lib/ext/cldrdata.jar:$JAVA_HOME/jre/lib/ext/dnsns.jar:$JAVA_HOME/jre/lib/ext/jaccess.jar:$JAVA_HOME/jre/lib/ext/jfxrt.jar:$JAVA_HOME/jre/lib/ext/localedata.jar:$JAVA_HOME/jre/lib/ext/nashorn.jar:$JAVA_HOME/jre/lib/ext/sunec.jar:$JAVA_HOME/jre/lib/ext/sunjce_provider.jar:$JAVA_HOME/jre/lib/ext/sunpkcs11.jar:$JAVA_HOME/jre/lib/ext/zipfs.jar:$JAVA_HOME/jre/lib/javaws.jar:$JAVA_HOME/jre/lib/jce.jar:$JAVA_HOME/jre/lib/jfr.jar:$JAVA_HOME/jre/lib/jfxswt.jar:$JAVA_HOME/jre/lib/jsse.jar:$JAVA_HOME/jre/lib/management-agent.jar/:$JAVA_HOME/jre/lib/plugin.jar:$JAVA_HOME/jre/lib/resources.jar:$JAVA_HOME/jre/lib/rt.jar
+
+PATH=$JAVA_HOME/bin:$PATH
+
+echo "export JAVA_HOME=$JAVA_HOME"
+echo "export CLASSPATH=$CLASSPATH"
+echo "export PATH=$PATH"
+echo "export java_version=$(java -version 2>&1 | head -n 1 2>&1 | awk '{print $3}' | sed 's/\"//g')"

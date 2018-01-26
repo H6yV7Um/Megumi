@@ -1,0 +1,48 @@
+#!bin/zsh
+
+alias h='cd ..'
+alias py='python'
+alias py3='python3'
+# docker
+alias dcc="docker ps -a | grep Exited | awk '{print \$1}' | xargs docker rm -v"
+alias dci="docker images | grep none | awk '{print \$3}' | xargs docker rmi"
+
+# cd
+alias cdh='cd ~/Documents/github/'
+alias cde='cd ~/Documents/eleme/'
+alias cdl='cd ~/Documents/gitlab/'
+alias cdd='cd ~/Documents'
+
+# git
+alias git-cl='git clean -df && git reset --hard'
+
+# alias
+alias nv='nvim'
+alias vv='nvim ~/.vimrc'
+alias va='nvim ~/.sh/.alias'
+alias sa='source ~/.sh/.alias'
+alias vb='nvim ~/.sh/.shrc'
+alias sb='source ~/.sh/.shrc'
+alias vz='nvim ~/.zshrc'
+alias sz='source ~/.zshrc'
+alias sv='source ./.venv/bin/activate'
+
+alias vc='nvim ~/.service'
+
+alias vr='nvim ./README.md'
+alias rf='rm -rf'
+
+alias pc='pwd | pbcopy'
+
+alias php-fpm='/usr/local/Cellar/php70/7.0.21_13/sbin/php-fpm'
+
+alias dpa='docker ps -a'
+alias ds='docker stop'
+alias dis='docker images'
+# env
+alias se='source /Users/jixunzhen/Documents/eleme/.venv/bin/activate'
+# k8s
+alias kcuc='kubectl config use-context'
+
+# pip
+alias pip-install='pip install --extra-index-url http://pypi.dev.elenet.me/eleme/eleme --trusted-host pypi.dev.elenet.me'

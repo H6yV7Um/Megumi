@@ -1,0 +1,13 @@
+[user]
+    name = xunzhen.ji
+    email = xunzhen.ji@ele.me
+[alias]
+    st = status
+    co = commit
+    ch = checkout
+    fe = fetch
+    re = rebase
+    me = merge
+    br = branch
+[core]
+    excludesfile=~/.gitignore_global

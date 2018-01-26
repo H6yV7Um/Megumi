@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+if [ ! $1 ];then
+    echo "Kill the process used specific port."
+    echo ""
+    echo "usage: kp [port]"
+    return
+fi
+cur_pid=`lsof -i:$1 | grep LISTEN | awk '{print $2}'`
+if [ ! -n "$cur_pid" ];then
+    echo "\e[31mno such process run on port $1.\e[0m"
+else
+    echo "kill "$cur_pid
+    kill -9 $cur_pid
+fi

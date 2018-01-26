@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+if [ ! $1 ]; then
+    cat <<EOF
+config for auto rsp.
+
+usage: rspi [remote]
+EOF
+    return
+fi
+
+cat >> .envrc <<EOF
+# RSP Config
+export PROJECT_REMOTE_TO=$1
+export AUTO_RSP=1
+EOF
+
+direnv allow .

@@ -1,0 +1,58 @@
+#!/bin/zsh
+if [[ ! $1 ]]; then
+    echo -e "init project env in current dir.\n"
+    echo -e "usage: initenv [language]\n"
+    echo -e "language:\n\tc\n\tcpp\n\tgo\n\tpython\n"
+    echo -e "etc: initenv python"
+    return
+fi
+
+# envrc config
+if [[ $1 == 'c' ]];then
+    cp ~/.c_ycm_extra_conf.py `pwd`/.ycm_extra_conf.py
+elif [[ $1 == 'cpp' ]]; then
+    cp ~/.c++_ycm_extra_conf.py `pwd`/.ycm_extra_conf.py
+elif [[ $1 == 'go' ]]; then
+    cat > `pwd`/.envrc <<EOF
+#!/bin/zsh
+export GOPATH=\$GOPATH:\$(pwd)
+EOF
+elif [[ $1 == 'python' ]]; then
+    cat > `pwd`/.envrc <<EOF
+#!/bin/zsh
+export PYTHONPATH=\$PYTHONPATH:\$(pwd)
+EOF
+fi
+
+direnv allow .
+
+
+# readme
+if [[ ! -f `pwd`/readme.md && ! -f `pwd`/README.md && ! -f `pwd`/Readme.md ]]; then
+    cat > `pwd`/README.md <<EOF
+Inited project of $1
+EOF
+fi
+
+# gitignore
+if [[ ! -f `pwd`/.gitignore ]]; then
+    cat >> `pwd`/.gitignore <<EOF
+# common
+.DS_Store
+.idea
+.envrc
+.rsync_ignore
+
+EOF
+    if [[ $1 == 'python' ]];then
+        cat >> `pwd`/.gitignore <<EOF
+# python
+*.pyc
+__pycache__
+.venv
+
+EOF
+    fi
+fi
+
+echo "init over."

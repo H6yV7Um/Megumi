@@ -1,0 +1,23 @@
+#!/bin/zsh
+if [ ! $1 ]; then
+    if [ ! $PROJECT_REMOTE_TO ]; then
+        echo "Rsync the current dir to specific remote dir."
+        echo ""
+        echo "usage: rsp [remote]"
+        echo "* you can omit the remote if you define env \$PROJECT_REMOTE_TO"
+        return
+    else
+        dest=$PROJECT_REMOTE_TO
+    fi
+else
+    dest=$1
+fi
+
+echo "\e[32mdest dir "$dest" ...\e[0m"
+
+if [ -f "./.rsync_ignore" ]; then
+    echo "\e[32mwith ignore file "./.rsync_ignore" ...\e[0m"
+    rsync -hlrtuOP --del --exclude-from ./.rsync_ignore ./ $dest
+else
+    rsync -hlrtuOP --del ./ $dest
+fi

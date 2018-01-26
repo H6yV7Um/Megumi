@@ -1,0 +1,9 @@
+"******************** config ***********************
+inoremap jk <esc>
+inoremap Jk <esc>
+inoremap JK <esc>
+
+inoremap <C-h> <left>
+inoremap <C-j> <down>
+inoremap <C-k> <up>
+inoremap <C-l> <right>
