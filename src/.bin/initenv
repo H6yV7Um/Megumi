@@ -15,12 +15,12 @@ elif [[ $1 == 'cpp' ]]; then
 elif [[ $1 == 'go' ]]; then
     cat > `pwd`/.envrc <<EOF
 #!/bin/zsh
-export GOPATH=\$GOPATH:\$(pwd)
+export GOPATH=\$(pwd):\$GOPATH
 EOF
 elif [[ $1 == 'python' ]]; then
     cat > `pwd`/.envrc <<EOF
 #!/bin/zsh
-export PYTHONPATH=\$PYTHONPATH:\$(pwd)
+export PYTHONPATH=\$(pwd):\$PYTHONPATH
 EOF
 fi
 

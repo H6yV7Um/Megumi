@@ -1,18 +1,7 @@
 #!/bin/bash
 
 DEST='./src'
-BACK_UP='./src_old'
 MYLOVE='./mylove.ini'
-
-if [[ -d $BACK_UP ]]; then
-    rm -rf $BACK_UP
-fi
-
-if [[ -d $DEST ]]; then
-    mv $DEST $BACK_UP
-fi
-
-mkdir $DEST
 
 function validate() {
     if [[ ! $1 ]]; then

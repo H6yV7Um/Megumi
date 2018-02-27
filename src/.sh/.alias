@@ -40,7 +40,8 @@ alias dpa='docker ps -a'
 alias ds='docker stop'
 alias dis='docker images'
 # env
-alias se='source /Users/jixunzhen/Documents/eleme/.venv/bin/activate'
+alias spe='source /Users/jixunzhen/Documents/eleme/.venv/bin/activate'
+alias sge='source /Users/jixunzhen/Documents/eleme/Alaya/activate.sh'
 # k8s
 alias kcuc='kubectl config use-context'
 

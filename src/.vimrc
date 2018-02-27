@@ -121,7 +121,7 @@ Plug 'ervandew/supertab'
 "Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " go一站式方案
-"Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 " docker file高亮插件
 "Plug 'ekalinin/Dockerfile.vim'
@@ -180,6 +180,7 @@ augroup load_ycm
                 \ | autocmd! load_ycm
 augroup END
 
+let g:ycm_log_level = 'debug'
 
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
@@ -230,8 +231,8 @@ noremap • 8gt
 noremap ª 9gt
 "******************************配置UltiSnips******************************
 let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<c-f>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
+let g:UltiSnipsJumpForwardTrigger = "<C-c>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-z>"
 
 " UltiSnips和YCM连用
 "au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
@@ -327,7 +328,7 @@ let g:syntastic_go_gometalinter_args = ['--disable-all', '--enable=errcheck']
 let g:syntastic_javascript_checkers=['eslint']
 
 " 针对java和php关闭检查，打开大文件会卡，建议手动调用
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['php', 'java'] }
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['php', 'java', 'go'] }
 
 let g:go_fmt_command = "goimports"
 
@@ -381,7 +382,7 @@ function PhpRun()
 endfunction
 
 function GoRun()
-    let result = system('go run ' . expand('%'))
+    let result = system('go run *.go')
     call SplitDisplay(result, 10)
 endfunction
 
@@ -409,6 +410,10 @@ endf
 
 function GOENV()
     let result=system('cp ~/.goenvrc `pwd`/.envrc && direnv allow `pwd`')
+endf
+
+function OpenAutoCheck()
+    autocmd BufWritePost * :SyntasticCheck
 endf
 
 function! CompileC()
@@ -477,6 +482,20 @@ cnoremap <C-h> <left>
 cnoremap <C-j> <down>
 cnoremap <C-k> <up>
 cnoremap <C-l> <right>
+
+"***** 禁忌的emacs映射
+inoremap <C-e> <end>
+inoremap <C-a> <home>
+inoremap <C-u> <home><C-o><S-d>
+
+" before utilsnips next
+inoremap <C-f> <right>
+
+" before utilsnips prev
+inoremap <C-b> <left>
+
+" 硝烟过后 inoremap <C-p> <up> inoremap <C-n> <down>
+
 cmap !w w !sudo tee >/dev/null %
 nnoremap gu gU
 nnoremap gl gu
@@ -542,7 +561,7 @@ endf
 
 function PythonAutoCMD()
     nnoremap <leader>r :call PythonRun()<CR>
-    inoremap <C-a> %
+    inoremap <C-w> %
     set colorcolumn=80
 endf
 
@@ -553,7 +572,7 @@ endf
 function PHPAutoCMD()
     nnoremap <leader>r :call PhpRun()<CR>
     call PhpHead()
-    inoremap <C-a> $
+    inoremap <C-w> $
     nmap ! :PhpFmt<CR>
 endf
 
@@ -578,7 +597,7 @@ function CSSAutoCMD()
     set omnifunc=csscomplete#CompleteCSS
     set tabstop=2
     set shiftwidth=2
-    inoremap <C-a> %
+    inoremap <C-w> %
 endf
 
 function JavascriptAutoCMD()
@@ -586,7 +605,7 @@ function JavascriptAutoCMD()
     set tabstop=2
     set shiftwidth=2
     nmap <leader>c :SyntasticCheck<CR>
-    inoremap <C-a> $
+    inoremap <C-w> $
 endf
 
 function VueAutoCMD()
@@ -598,7 +617,7 @@ endf
 
 function CPPAutoCMD()
     nnoremap <leader>r :call CompileC()<CR>
-    inoremap <C-a> *
+    inoremap <C-w> *
     inoremap <C-x> &
     let g:cpp_class_scope_highlight = 1
     let g:cpp_member_variable_highlight = 1
@@ -608,7 +627,7 @@ endf
 
 function CAutoCMD()
     nnoremap <leader>r :call CompileC()<CR>
-    inoremap <C-a> *
+    inoremap <C-w> *
     inoremap <C-x> &
 endf
 
@@ -619,10 +638,13 @@ function TypescriptAutoCMD()
 endf
 
 function GoAutoCMD()
+    let g:winManagerWindowLayout='NERDTree'
     set completefunc=youcompleteme#Complete
     set completeopt=longest,menuone
+    map <leader>c :SyntasticCheck<CR>
     map <leader>r :call GoRun()<CR>
-    imap ;; :=| imap <C-a> &
+    imap ;; :=
+    imap <C-w> *
     noremap <S-k> <nop>
     nmap ! :GoFmt<CR>
 endf
