@@ -25,12 +25,13 @@ set splitbelow
 
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
+
 "******************************字符编码设置**************************
 "set encoding=utf-8
 "set termencoding=utf-8
 
 "******************************数字映射**************************
-nmap ! :Autoformat<CR>
+
 nnoremap # :nohl<CR>
 nnoremap % @=((foldclosed(line('.'))<0)?'zc':'zo')<CR>
 noremap 4 <End>
@@ -457,6 +458,15 @@ endif
 map <S-q> :q!<CR>
 map <S-w> :w<CR>
 
+" Alt + L
+nmap ¬ :Autoformat<CR>
+
+" Alt + j
+noremap ˚ ddp
+
+" Alt + k
+noremap ∆ :call feedkeys( line('.')==1 ? '' : 'ddkP' )<CR>
+
 map <C-a> ggVG
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
@@ -465,7 +475,8 @@ nmap <C-l> <C-w>l
 nmap <S-z> <C-W>o<S-q>
 nmap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nmap <leader>b <C-o>
-map <S-l> <leader>c<space>
+" C-/ equal C-_ in vim
+map <C-_> <leader>c<space>
 map e <Plug>CamelCaseMotion_e
 map w <Plug>CamelCaseMotion_w
 map b <Plug>CamelCaseMotion_b
@@ -487,7 +498,6 @@ cnoremap <C-l> <right>
 inoremap <C-e> <end>
 inoremap <C-a> <home>
 inoremap <C-u> <home><C-o><S-d>
-
 " before utilsnips next
 inoremap <C-f> <right>
 
