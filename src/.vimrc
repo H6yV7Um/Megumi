@@ -47,7 +47,8 @@ Plug 'junegunn/fzf', { 'on':'FZF', 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'Valloric/YouCompleteMe', {'on': []}
 
 " 语法检查
-Plug 'vim-syntastic/syntastic', { 'on': 'SyntasticCheck' }
+"Plug 'vim-syntastic/syntastic', { 'on': 'SyntasticCheck' }
+Plug 'w0rp/ale'
 
 " 基于语言的语法补全
 Plug 'honza/vim-snippets'
@@ -274,66 +275,95 @@ set updatetime=250
 nmap gb :Gblame<CR>
 
 "******************************配置Syntastic******************************
-augroup load_syntastic
-    autocmd!
-    autocmd BufWritePre * call plug#load('syntastic')
-                \ | autocmd! load_syntastic
-augroup END
-nmap <leader>c :SyntasticCheck<CR>
+"augroup load_syntastic
+    "autocmd!
+    "autocmd BufWritePre * call plug#load('syntastic')
+                "\ | autocmd! load_syntastic
+"augroup END
+"nmap <leader>c :SyntasticCheck<CR>
 
-set statusline+=%#errormsg#
-set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
-set statusline+=%*
+"set statusline+=%#errormsg#
+"set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
+"set statusline+=%*
 
 "let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_wq = 0
 
-let g:ycm_semantic_triggers = {
-            \'css': [ 're!^\s{2}', 're!:\s+', 're!^\t' ],
-            \'javascript': ['.'],
-            \'go': ['.'],
-            \'html': ['re!</'],
-            \'vue': ['re!</'],
+"let g:ycm_semantic_triggers = {
+            "\'css': [ 're!^\s{2}', 're!:\s+', 're!^\t' ],
+            "\'javascript': ['.'],
+            "\'go': ['.'],
+            "\'html': ['re!</'],
+            "\'vue': ['re!</'],
+            "\}
+
+"let g:syntastic_python_checkers = ['flake8']
+"let g:syntastic_python_flake8_post_args='--ignore=E501,F401,F841,F403'
+"let g:syntastic_quiet_messages = {
+            "\"type": "style",
+            "\"!level": "errors",
+            "\}
+
+"let g:syntastic_c_compiler = 'clang5'
+"let g:syntastic_c_compiler_options = '
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
+            "\'
+
+"let g:syntastic_cpp_compiler = 'clang5++'
+"let g:syntastic_cpp_compiler_options = '
+            "\ -std=c++11 -stdlib=libc++
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
+            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
+            "\'
+"let g:tsuquyomi_disable_quickfix = 1
+"let g:syntastic_typescript_checkers = ['tsuquyomi']
+
+"let g:syntastic_go_checkers = ['go']
+"let g:syntastic_go_gometalinter_args = ['--disable-all', '--enable=errcheck']
+
+"let g:syntastic_javascript_checkers=['eslint']
+
+"" 针对java和php关闭检查，打开大文件会卡，建议手动调用
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['php', 'java', 'go'] }
+
+"let g:go_fmt_command = "goimports"
+
+"****************************** vim-go ******************************
+let g:go_fmt_autosave = 0
+
+"****************************** Ale ******************************
+let g:ale_lint_on_text_changed = 1
+
+let g:ale_linters = {
+            \'go': ['gofmt','gometalinter'],
             \}
 
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_post_args='--ignore=E501,F401,F841,F403'
-let g:syntastic_quiet_messages = {
-            \"type": "style",
-            \"!level": "errors",
-            \}
+let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck'
+let g:ale_python_flake8_options = '--ignore=E501,F401,F841,F403,W503'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_column_always = 1
 
-let g:syntastic_c_compiler = 'clang5'
-let g:syntastic_c_compiler_options = '
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
-            \'
+"let g:airline#extensions#ale#enabled = 1
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
 
-let g:syntastic_cpp_compiler = 'clang5++'
-let g:syntastic_cpp_compiler_options = '
-            \ -std=c++11 -stdlib=libc++
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
-            \ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
-            \'
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
 
-let g:syntastic_go_checkers = ['go']
-let g:syntastic_go_gometalinter_args = ['--disable-all', '--enable=errcheck']
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
 
-let g:syntastic_javascript_checkers=['eslint']
-
-" 针对java和php关闭检查，打开大文件会卡，建议手动调用
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['php', 'java', 'go'] }
-
-let g:go_fmt_command = "goimports"
-
-"******************************配置文件自动补全******************************
+set statusline=%{LinterStatus()}
 
 "******************************Autoformat******************************
 "c++以及java自动格式化
@@ -414,7 +444,7 @@ function GOENV()
 endf
 
 function OpenAutoCheck()
-    autocmd BufWritePost * :SyntasticCheck
+    "autocmd BufWritePost * :SyntasticCheck
 endf
 
 function! CompileC()
@@ -466,6 +496,12 @@ noremap ˚ ddp
 
 " Alt + k
 noremap ∆ :call feedkeys( line('.')==1 ? '' : 'ddkP' )<CR>
+
+
+" Ale Next Prev
+nmap <silent> <S-b> <Plug>(ale_previous_wrap)
+nmap <silent> <S-f> <Plug>(ale_next_wrap)
+
 
 map <C-a> ggVG
 nmap <C-j> <C-w>j
@@ -614,7 +650,7 @@ function JavascriptAutoCMD()
     set omnifunc=javascriptcomplete#CompleteJS
     set tabstop=2
     set shiftwidth=2
-    nmap <leader>c :SyntasticCheck<CR>
+    "nmap <leader>c :SyntasticCheck<CR>
     inoremap <C-w> $
 endf
 
@@ -651,12 +687,13 @@ function GoAutoCMD()
     let g:winManagerWindowLayout='NERDTree'
     set completefunc=youcompleteme#Complete
     set completeopt=longest,menuone
-    map <leader>c :SyntasticCheck<CR>
+    "map <leader>c :SyntasticCheck<CR>
     map <leader>r :call GoRun()<CR>
     imap ;; :=
     imap <C-w> *
     noremap <S-k> <nop>
-    nmap ! :GoFmt<CR>
+    highlight ALEWarning ctermbg=DarkMagenta
+    autocmd BufWritePre *.go :GoImports
 endf
 
 function YamlAutoCMD()
@@ -666,7 +703,7 @@ endf
 
 function JavaAutoCMD()
     set omnifunc=javacomplete#Complete
-    nmap <leader>c :SyntasticCheck<CR>
+    "nmap <leader>c :SyntasticCheck<CR>
     nmap <leader>i <Plug>(JavaComplete-Imports-AddSmart)
     nmap <leader>u <Plug>(JavaComplete-Imports-RemoveUnused)
 endf

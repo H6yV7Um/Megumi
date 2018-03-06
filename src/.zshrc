@@ -84,6 +84,9 @@ plugins=(
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+setopt auto_cd
+cdpath=($HOME/Documents/eleme/Alaya/src/eleme/services/trans.calculate $HOME/Documents/eleme)
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
