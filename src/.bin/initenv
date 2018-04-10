@@ -9,9 +9,9 @@ fi
 
 # envrc config
 if [[ $1 == 'c' ]];then
-    cp ~/.c_ycm_extra_conf.py `pwd`/.ycm_extra_conf.py
+    cp ~/.c_ycm_conf.py `pwd`/.ycm_extra_conf.py
 elif [[ $1 == 'cpp' ]]; then
-    cp ~/.c++_ycm_extra_conf.py `pwd`/.ycm_extra_conf.py
+    cp ~/.cpp_ycm_conf.py `pwd`/.ycm_extra_conf.py
 elif [[ $1 == 'go' ]]; then
     cat > `pwd`/.envrc <<EOF
 #!/bin/zsh
@@ -24,8 +24,9 @@ export PYTHONPATH=\$(pwd):\$PYTHONPATH
 EOF
 fi
 
-direnv allow .
-
+if [[ -f `pwd`/.envrc ]]; then
+    direnv allow .
+fi
 
 # readme
 if [[ ! -f `pwd`/readme.md && ! -f `pwd`/README.md && ! -f `pwd`/Readme.md ]]; then

@@ -85,7 +85,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 setopt auto_cd
-cdpath=($HOME/Documents/eleme/Alaya/src/eleme/services/trans.calculate $HOME/Documents/eleme)
+cdpath=($HOME/Documents/eleme/Alaya/src/eleme/services $HOME/Documents/eleme)
 
 # User configuration
 
@@ -129,3 +129,9 @@ eval "$(direnv hook zsh)"
 source ~/.sh/.shrc
 source ~/.sh/.alias
 source ~/.sh/.prompt
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/jixunzhen/Documents/github/kubernetes/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/jixunzhen/Documents/github/kubernetes/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/jixunzhen/Documents/github/kubernetes/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/jixunzhen/Documents/github/kubernetes/google-cloud-sdk/completion.zsh.inc'; fi

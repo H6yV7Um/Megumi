@@ -7,8 +7,8 @@ COMPOSERPATH=/Users/jixunzhen/.composer/vendor/bin
 
 LD_LIBRARY_PATH=/usr/local/lib
 
-GOPATH=/usr/local/Cellar/go/1.9.2/libexec:/Users/jixunzhen/go
-
+GOPATH=/Users/jixunzhen/go
+GOROOT=/usr/local/Cellar/go/1.9.2/libexec
 
 PATH=~/Library/Python/2.7/bin:$PATH # user python bin
 PATH=$COMPOSERPATH:$PATH            # composer
@@ -41,4 +41,6 @@ eval $(jvs 8)
 #├┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┤
 #" | lolcat -s $RANDOM;
 
-fortune | cowsay
+#fortune | cowsay
+
+clear

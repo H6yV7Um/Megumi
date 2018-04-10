@@ -24,6 +24,7 @@ set ignorecase
 set splitbelow
 
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+set switchbuf+=usetab,newtab
 
 
 "******************************字符编码设置**************************
@@ -44,7 +45,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'on':'FZF', 'dir': '~/.fzf', 'do': './install --all' }
 
 " 补全
-Plug 'Valloric/YouCompleteMe', {'on': []}
+"Plug 'Valloric/YouCompleteMe', {'on': []}
 
 " 语法检查
 "Plug 'vim-syntastic/syntastic', { 'on': 'SyntasticCheck' }
@@ -209,36 +210,18 @@ let g:ycm_python_binary_path = 'python'
 let g:ycm_always_populate_location_list = 1
 "let g:ycm_show_diagnostics_ui = 0
 
-let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
 " 设置goto打开新buffer
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 
 "******************************配置airline******************************
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"nmap <C-s> <Plug>AirlineSelectPrevTab
-"nmap <C-d> <Plug>AirlineSelectNextTab
 nmap <S-tab> :tabp<CR>
 nmap <tab> :tabn<CR>
-noremap ¡ 1gt
-noremap ™ 2gt
-noremap £ 3gt
-noremap ¢ 4gt
-noremap ∞ 5gt
-noremap § 6gt
-noremap ¶ 7gt
-noremap • 8gt
-noremap ª 9gt
 "******************************配置UltiSnips******************************
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<C-c>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-z>"
-
-" UltiSnips和YCM连用
-"au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
-"au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 "******************************配置php-cs-fixer******************************
 let g:phpfmt_standard = 'PSR2'
@@ -274,78 +257,22 @@ let g:winManagerWidth = 30
 set updatetime=250
 nmap gb :Gblame<CR>
 
-"******************************配置Syntastic******************************
-"augroup load_syntastic
-    "autocmd!
-    "autocmd BufWritePre * call plug#load('syntastic')
-                "\ | autocmd! load_syntastic
-"augroup END
-"nmap <leader>c :SyntasticCheck<CR>
-
-"set statusline+=%#errormsg#
-"set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_wq = 0
-
-"let g:ycm_semantic_triggers = {
-            "\'css': [ 're!^\s{2}', 're!:\s+', 're!^\t' ],
-            "\'javascript': ['.'],
-            "\'go': ['.'],
-            "\'html': ['re!</'],
-            "\'vue': ['re!</'],
-            "\}
-
-"let g:syntastic_python_checkers = ['flake8']
-"let g:syntastic_python_flake8_post_args='--ignore=E501,F401,F841,F403'
-"let g:syntastic_quiet_messages = {
-            "\"type": "style",
-            "\"!level": "errors",
-            "\}
-
-"let g:syntastic_c_compiler = 'clang5'
-"let g:syntastic_c_compiler_options = '
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
-            "\'
-
-"let g:syntastic_cpp_compiler = 'clang5++'
-"let g:syntastic_cpp_compiler_options = '
-            "\ -std=c++11 -stdlib=libc++
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/main/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/Zend/
-            "\ -I/usr/local/Cellar/php70/7.0.18_10/include/php/TSRM/
-            "\'
-"let g:tsuquyomi_disable_quickfix = 1
-"let g:syntastic_typescript_checkers = ['tsuquyomi']
-
-"let g:syntastic_go_checkers = ['go']
-"let g:syntastic_go_gometalinter_args = ['--disable-all', '--enable=errcheck']
-
-"let g:syntastic_javascript_checkers=['eslint']
-
-"" 针对java和php关闭检查，打开大文件会卡，建议手动调用
-"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['php', 'java', 'go'] }
-
-"let g:go_fmt_command = "goimports"
-
 "****************************** vim-go ******************************
-let g:go_fmt_autosave = 0
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
 
 "****************************** Ale ******************************
 let g:ale_lint_on_text_changed = 1
 
 let g:ale_linters = {
             \'go': ['gofmt','gometalinter'],
+            \'python': ['flake8'],
             \}
 
+"let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck --enable=golint'
 let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck'
 let g:ale_python_flake8_options = '--ignore=E501,F401,F841,F403,W503'
+let g:ale_python_pylint_options = '--disable=C0111'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_column_always = 1
 
@@ -357,10 +284,10 @@ function! LinterStatus() abort
     let l:all_non_errors = l:counts.total - l:all_errors
 
     return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
+                \   '%dW %dE',
+                \   all_non_errors,
+                \   all_errors
+                \)
 endfunction
 
 set statusline=%{LinterStatus()}
@@ -470,11 +397,6 @@ function PhpHead()
     let line = getline(1)
     if !(line =~ '\<\?php')
         call append(0, '<?php')
-    endif
-
-    let line = getline(2)
-    if !(line =~ '\S*baixing.com\S*')
-        call append(1, '// jixunzhen@baixing.com')
     endif
 endf
 
@@ -612,14 +534,14 @@ function PythonAutoCMD()
 endf
 
 function ThriftAutoCMD()
-    nnoremap ! <nop>
+    nnoremap ¬ <nop>
 endf
 
 function PHPAutoCMD()
     nnoremap <leader>r :call PhpRun()<CR>
     call PhpHead()
     inoremap <C-w> $
-    nmap ! :PhpFmt<CR>
+    nmap ¬ :PhpFmt<CR>
 endf
 
 function HTMLAutoCMD()
@@ -693,7 +615,6 @@ function GoAutoCMD()
     imap <C-w> *
     noremap <S-k> <nop>
     highlight ALEWarning ctermbg=DarkMagenta
-    autocmd BufWritePre *.go :GoImports
 endf
 
 function YamlAutoCMD()

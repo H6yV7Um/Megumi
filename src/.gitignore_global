@@ -1,1 +1,4 @@
 .envrc
+*.nogit*
+*.nogit_dir
+*.zip
