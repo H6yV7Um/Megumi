@@ -2,13 +2,19 @@
 set nocompatible
 filetype on
 filetype plugin on
-set history=1000
 syntax on
+
+set history=1000
+
 set smartindent
 set autoindent
+
 set tabstop=4
-set expandtab
+set softtabstop=4
 set shiftwidth=4
+
+set expandtab
+
 set showmatch
 set ruler
 set incsearch
@@ -27,15 +33,10 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 set switchbuf+=usetab,newtab
 
 
-"******************************字符编码设置**************************
-"set encoding=utf-8
-"set termencoding=utf-8
-
 "******************************数字映射**************************
 
 nnoremap # :nohl<CR>
 nnoremap % @=((foldclosed(line('.'))<0)?'zc':'zo')<CR>
-noremap 4 <End>
 noremap ( :lclose<CR>
 
 "******************************配置插件******************************
@@ -45,7 +46,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'on':'FZF', 'dir': '~/.fzf', 'do': './install --all' }
 
 " 补全
-"Plug 'Valloric/YouCompleteMe', {'on': []}
+Plug 'Valloric/YouCompleteMe', {'on': []}
 
 " 语法检查
 "Plug 'vim-syntastic/syntastic', { 'on': 'SyntasticCheck' }
@@ -146,6 +147,9 @@ Plug 'solarnz/thrift.vim'
 
 " sql高亮
 Plug 'shmup/vim-sql-syntax'
+
+" python indent
+Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 
 call plug#end()
 
@@ -274,7 +278,8 @@ let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck'
 let g:ale_python_flake8_options = '--ignore=E501,F401,F841,F403,W503'
 let g:ale_python_pylint_options = '--disable=C0111'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_column_always = 1
+
+let g:ale_set_signs = 0
 
 "let g:airline#extensions#ale#enabled = 1
 function! LinterStatus() abort
@@ -370,9 +375,6 @@ function GOENV()
     let result=system('cp ~/.goenvrc `pwd`/.envrc && direnv allow `pwd`')
 endf
 
-function OpenAutoCheck()
-    "autocmd BufWritePost * :SyntasticCheck
-endf
 
 function! CompileC()
     exec "w"
@@ -421,7 +423,7 @@ noremap ∆ :call feedkeys( line('.')==1 ? '' : 'ddkP' )<CR>
 
 
 " Ale Next Prev
-nmap <silent> <S-b> <Plug>(ale_previous_wrap)
+"nmap <silent> <S-b> <Plug>(ale_previous_wrap)
 nmap <silent> <S-f> <Plug>(ale_next_wrap)
 
 
@@ -435,9 +437,10 @@ nmap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nmap <leader>b <C-o>
 " C-/ equal C-_ in vim
 map <C-_> <leader>c<space>
-map e <Plug>CamelCaseMotion_e
-map w <Plug>CamelCaseMotion_w
-map b <Plug>CamelCaseMotion_b
+
+"map <C-e> <Plug>CamelCaseMotion_e
+"map <C-w> <Plug>CamelCaseMotion_w
+"map b <Plug>CamelCaseMotion_b
 
 noremap <S-k> <nop>
 vmap c "+y
@@ -512,7 +515,7 @@ function AutoCMD()
         call VueAutoCMD()
     elseif (&ft == 'cpp')
         call CPPAutoCMD()
-    elsei (&ft == 'c')
+    elseif (&ft == 'c')
         call CAutoCMD()
     elseif (&ft == 'typescript')
         call TypescriptAutoCMD()
@@ -530,7 +533,7 @@ endf
 function PythonAutoCMD()
     nnoremap <leader>r :call PythonRun()<CR>
     inoremap <C-w> %
-    set colorcolumn=80
+    "set colorcolumn=80
 endf
 
 function ThriftAutoCMD()

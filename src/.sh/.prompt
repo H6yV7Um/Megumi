@@ -41,6 +41,15 @@ function set_go_version() {
     GO_VERSION="%{$FG[159]%}[go: $version]%{$reset_color%}"
 }
 
+function set_huskar_version() {
+    if [ -f '/etc/eleme/env.yaml' ];then
+        env=$(grep env /etc/eleme/env.yaml | head -1 | awk '{print $2}')
+        cluster=$(grep cluster /etc/eleme/env.yaml | head -1 | awk '{print $2}')
+        huskar_env="$env, $cluster"
+    fi
+    HUSKAR_ENV="%{$FG[159]%}[huskar: $huskar_env]%{$reset_color%}"
+}
+
 function set_version() {
     # Set the PYTHON_VERSION variable.
     set_python_version
@@ -59,11 +68,13 @@ function set_version() {
 
     #set_k8s_context
     set_go_version
+
+    set_huskar_version
 }
 
 function set_prompt() {
     set_version
-    echo "${PYTHON_VERSION}${GO_VERSION}${JAVA_VERSION}${K8S_CONTEXT}${PHP_VERSION}${NODE_VERSION}${RUBY_VERSION}"
+    echo "${PYTHON_VERSION}${GO_VERSION}${JAVA_VERSION}${K8S_CONTEXT}${PHP_VERSION}${NODE_VERSION}${RUBY_VERSION}${HUSKAR_ENV}"
 }
 
 VIRTUAL_ENV_DISABLE_PROMPT=1

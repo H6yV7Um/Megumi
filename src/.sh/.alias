@@ -39,9 +39,6 @@ alias php-fpm='/usr/local/Cellar/php70/7.0.21_13/sbin/php-fpm'
 alias dpa='docker ps -a'
 alias ds='docker stop'
 alias dis='docker images'
-# env
-alias spe='source /Users/jixunzhen/Documents/eleme/.venv/bin/activate'
-alias sge='source /Users/jixunzhen/Documents/eleme/Alaya/activate.sh'
 # k8s
 alias kcuc='kubectl config use-context'
 

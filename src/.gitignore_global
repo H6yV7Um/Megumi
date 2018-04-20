@@ -2,3 +2,4 @@
 *.nogit*
 *.nogit_dir
 *.zip
+*eless_env.yaml*
