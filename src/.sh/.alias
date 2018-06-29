@@ -3,15 +3,10 @@
 alias h='cd ..'
 alias py='python'
 alias py3='python3'
+
 # docker
 alias dcc="docker ps -a | grep Exited | awk '{print \$1}' | xargs docker rm -v"
 alias dci="docker images | grep none | awk '{print \$3}' | xargs docker rmi"
-
-# cd
-alias cdh='cd ~/Documents/github/'
-alias cde='cd ~/Documents/eleme/'
-alias cdl='cd ~/Documents/gitlab/'
-alias cdd='cd ~/Documents'
 
 # git
 alias git-cl='git clean -df && git reset --hard'
@@ -42,5 +37,6 @@ alias dis='docker images'
 # k8s
 alias kcuc='kubectl config use-context'
 
-# pip
+# python
 alias pip-install='pip install --extra-index-url http://pypi.dev.elenet.me/eleme/eleme --trusted-host pypi.dev.elenet.me'
+alias spv='source .venv/bin/activate'

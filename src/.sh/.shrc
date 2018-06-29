@@ -5,10 +5,17 @@ export LSCOLORS='CxfxcxdxbxegedabagGxGx' #指定颜色
 
 COMPOSERPATH=/Users/jixunzhen/.composer/vendor/bin
 
+LC_ALL=en_US.UTF-8
+LANG=en_US.UTF-8
+
+STDOUT=1
+STDIN=0
+STDERR=2
+
 LD_LIBRARY_PATH=/usr/local/lib
 
 GOPATH=/Users/jixunzhen/go
-GOROOT=/usr/local/Cellar/go/1.9.2/libexec
+GOROOT=/usr/local/opt/go/libexec
 
 PATH=~/Library/Python/2.7/bin:$PATH # user python bin
 PATH=$COMPOSERPATH:$PATH            # composer
@@ -22,6 +29,13 @@ export GOROOT
 export PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 export PATH=/usr/local/opt/llvm/bin:$PATH
+
+export LC_ALL
+export LANG
+
+export STDIN
+export STDOUT
+export STDERR
 
 export HOMEBREW_GITHUB_API_TOKEN="7e572a8eeecff5e834e409983237c138e6cb3469"
 

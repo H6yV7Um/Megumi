@@ -61,9 +61,9 @@ plugins=(
   git
   #z
   extract
-  docker
+  #docker
   #go
-  mvn
+  #mvn
   #redis-cli
   #npm
   #nvm
@@ -85,7 +85,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 setopt auto_cd
-cdpath=($HOME/Documents/eleme/Alaya/src/eleme/services $HOME/Documents/eleme)
+cdpath=($HOME/Documents/eleme/Alaya/src/eleme/services $HOME/Documents/eleme $HOME/Documents)
 
 # User configuration
 

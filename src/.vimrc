@@ -32,6 +32,8 @@ set splitbelow
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 set switchbuf+=usetab,newtab
 
+" do not output to terminal
+set shellpipe=>
 
 "******************************数字映射**************************
 
@@ -46,7 +48,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'on':'FZF', 'dir': '~/.fzf', 'do': './install --all' }
 
 " 补全
-Plug 'Valloric/YouCompleteMe', {'on': []}
+Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe', {'on': []}
 
 " 语法检查
 "Plug 'vim-syntastic/syntastic', { 'on': 'SyntasticCheck' }
@@ -64,6 +67,9 @@ Plug 'Chiel92/vim-autoformat', { 'on': 'Autoformat' }
 
 " 括号自动补全
 Plug 'Raimondi/delimitMate'
+
+"
+Plug 'easymotion/vim-easymotion'
 
 " airline
 "Plug 'vim-airline/vim-airline'
@@ -94,7 +100,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'beanworks/vim-phpfmt', { 'on': 'PhpFmt' }
 
 " grep
-Plug 'mhinz/vim-grepper',  { 'on': 'Grepper' }
+"Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
+Plug 'dyng/ctrlsf.vim'
+"Plug 'mileszs/ack.vim'
 
 " typescript高亮
 "Plug 'HerringtonDarkholme/yats.vim'
@@ -181,11 +189,11 @@ if has("gui_macvim")
 endif
 
 "******************************配置ycm******************************
-augroup load_ycm
-    autocmd!
-    autocmd InsertEnter * call plug#load('YouCompleteMe')
-                \ | autocmd! load_ycm
-augroup END
+"augroup load_ycm
+    "autocmd!
+    "autocmd InsertEnter * call plug#load('YouCompleteMe')
+                "\ | autocmd! load_ycm
+"augroup END
 
 let g:ycm_log_level = 'debug'
 
@@ -271,11 +279,13 @@ let g:ale_lint_on_text_changed = 1
 let g:ale_linters = {
             \'go': ['gofmt','gometalinter'],
             \'python': ['flake8'],
+            \'c': [],
+            \'cpp': [],
             \}
 
 "let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck --enable=golint'
 let g:ale_go_gometalinter_options = '--disable-all --enable=errcheck'
-let g:ale_python_flake8_options = '--ignore=E501,F401,F841,F403,W503'
+let g:ale_python_flake8_options = '--ignore=E501,F841,F403,W503'
 let g:ale_python_pylint_options = '--disable=C0111'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
@@ -308,12 +318,31 @@ let g:formatters_java = ['style_java']
 " python google lint
 let g:formatter_yapf_style = 'google'
 
-"****************************** Grepper FZF *******************************
+"****************************** Grep FZF *******************************
 
-nmap <leader>g :Grepper -tool git<CR>
-nmap <leader>af :tabnew<CR>:FZF<CR>
-nmap <leader>ag :tabnew<CR>:Grepper -tool git<CR>
 nmap <leader>f :FZF<CR>
+nmap <leader>af :tabnew<CR>:FZF<CR>
+
+"cnoreabbrev Ack Ack!
+"nnoremap <leader>g :Ack!<Space>
+nnoremap <leader>g :CtrlSF<Space>
+" 选中查询
+vmap <leader>g <Plug>CtrlSFVwordExec
+" 光标所在单词查询
+nmap <leader>dg <Plug>CtrlSFCwordPath
+
+let g:ctrlsf_mapping = {
+    \ "next": "n",
+    \ "prev": "N",
+    \ }
+" 关闭ctrlsf自动关闭
+let g:ctrlsf_auto_close = {
+    \ "normal" : 0,
+    \ "compact": 0
+    \}
+"在下面显示
+"let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_ignore_dir = ['.venv', '.git', 'build', '.build', '.idea', '.cache', '.vscode']
 
 "**************************** delimitMate *******************************
 let g:delimitMate_expand_cr = 2
@@ -412,8 +441,8 @@ endif
 map <S-q> :q!<CR>
 map <S-w> :w<CR>
 
-" Alt + L
-nmap ¬ :Autoformat<CR>
+" <S-1>
+nmap ! :Autoformat<CR>
 
 " Alt + j
 noremap ˚ ddp
